@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
-const multer  = require('multer')
+// const multer  = require('multer')
 
 const reporterScehma = mongoose.Schema({
     name:{ 
@@ -21,15 +21,14 @@ const reporterScehma = mongoose.Schema({
         }
     },
     phone:{
-        type:Number,
+        type:String,
         required:true,
         trim:true,
-        //minlength:11,
-        // validate(value){
-        //     if (!validator.isMobilePhone(value, 'ar-EG')) {
-        //         throw new Error('Number must be egyptian number')
-        //     }
-        // }
+        validate(value){
+            if (!validator.isMobilePhone(value, 'ar-EG')) {
+                throw new Error('Number must be egyptian number')
+            }
+        }
     },
     email:{
         type:String,

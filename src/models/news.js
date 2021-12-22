@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+
 const newsScehma = mongoose.Schema({
     title: {
         type: String,
@@ -14,6 +15,7 @@ const newsScehma = mongoose.Schema({
         required: true,
         ref: 'Reporter'
     },
+    
 }, {
     timestamps: true
 })

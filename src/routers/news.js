@@ -4,6 +4,7 @@ const router = new express.Router()
 const auth = require('../middelware/auth')
 
 
+
 router.post('/news',auth,async(req,res)=>{
     try{
         const news = new News({...req.body,reporter:req.reporter._id})
