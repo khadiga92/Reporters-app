@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const multer  = require('multer')
 
 const newsScehma = mongoose.Schema({
     title: {
@@ -15,7 +15,9 @@ const newsScehma = mongoose.Schema({
         required: true,
         ref: 'Reporter'
     },
-    
+    avatar:{
+        type:Buffer,
+    }
 }, {
     timestamps: true
 })

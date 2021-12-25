@@ -2,7 +2,7 @@ const express = require('express')
 const News = require('../models/news')
 const router = new express.Router()
 const auth = require('../middelware/auth')
-
+const multer  = require('multer')
 
 
 router.post('/news',auth,async(req,res)=>{
@@ -15,6 +15,34 @@ router.post('/news',auth,async(req,res)=>{
         res.status(400).send(e.message)
     }
 })
+
+const uploads = multer({
+    limits:{
+        fileSize:1000000
+    },
+    fileFilter(req,file,cb){
+        if(!file.originalname.match(/\.(jpg|jpeg|png|jfif)$/)){
+            cb(new Error('Please upload image'))
+        }
+        cb(null,true)
+    }
+})
+
+router.post('/uploads/:id',auth,uploads.single('avatar'),async(req,res)=>{
+    try {
+        const _id = req.params.id
+        const news = await News.findOne({_id,reporter:req.reporter._id}) 
+        if(!news){
+            return res.status(404).send("No news is found")
+        }
+       news.avatar = req.file.buffer
+        await news.save()
+        res.status(200).send(news)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
 
 router.get('/news',auth,async(req,res)=>{
     try{
